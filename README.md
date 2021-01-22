@@ -16,7 +16,8 @@ Exercise2.fasta.gz  Exercise2.fastq.tar.gz
 ```
 [apear012@turing1 exercises]$ gunzip Exercise2.fasta.gz
 [apear012@turing1 exercises]$ ls
-Exercise2.fasta  Exercise2.fastq.tar.gz```
+Exercise2.fasta  Exercise2.fastq.tar.gz
+```
 
 If you wanted to gunzip without losing the original file, you would use:
 ```
@@ -61,7 +62,7 @@ number of days that you need.
 ```
 #11- run the avg_cov_len_fasta_DJB.py script on your Exercise2.fasta file by typing the path to the script followed by the Exercise2.fasta file name
 ```
-e2-w6420b-01:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/exercises> ../../scripts//avg_cov_len_fasta_advbioinf.py Exercise2.fasta
+ e2-w6420b-01:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/exercises> ../../scripts//avg_cov_len_fasta_advbioinf.py Exercise2.fasta
 The total number of sequences is 138
 The average sequence length is 126640
 The total number of bases is 17476447
