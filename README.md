@@ -79,6 +79,7 @@ contigs >= 2000bp = 135
 
 ## Day 03 27-Jan-2021
 Below is technically the day02 homework.
+
 1- Write an sbatch script to cp the files /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/originalfastqs/ into your own data directory, Andrew-HADB01
 ```
 [apear012@coreV2-25-072 data]$ pwd
