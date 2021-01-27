@@ -362,3 +362,71 @@ APRenameLane01Files.txt     RI_B_01_22.fastq   RI_W_01_22.fastq   VA_B_01_22.fas
 renamingtable_complete.txt  RI_B_08_SNP.fastq  RI_W_08_SNP.fastq  VA_B_09_SNP.fastq  VA_W_08_SNP.fastq
 RI_B_01_14.fastq            RI_W_01_14.fastq   VA_B_01_14.fastq   VA_W_01_14.fastq
 ```
+7. Make sure this is all documented on your github page
+see above
+
+8. The naming convention for the files is as follows:
+  * SOURCEPOPULATION_SYMBIOTICSTATE_GENOTYPE_TEMPERATURE.fastq
+  * There are 2 sources: Virginia and Rhode Island
+  * There are 2 symbiotic states: Brown and White
+  
+9. Next, you're going to start the process of adapter clipping and quality trimming all the renamed .fastq files in batches, by lane.
+
+10. cp the script /cm/shared/courses/dbarshis/21AdvGenomics/scripts/Trimclipfilterstatsbatch_advbioinf.py into your scripts directory.
+```
+[apear012@turing1 scripts]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/scripts
+
+[apear012@turing1 scripts]$ cp /cm/shared/courses/dbarshis/21AdvGenomics/scripts/Trimclipfilterstatsbatch_advbioinf.py .
+[apear012@turing1 scripts]$ ls
+avg_cov_len_fasta_advbioinf.py  renamer_advbioinf.py  Trimclipfilterstatsbatch_advbioinf.py
+```
+
+11. Less/head the new script and check out the usage statement
+
+```
+[apear012@turing1 scripts]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/scripts
+[apear012@turing1 scripts]$ head Trimclipfilterstatsbatch_advbioinf.py 
+#!/usr/bin/env python
+# Written by Dan Barshis
+
+import sys, os
+
+########### Usage #############
+# Trimclipfilterstatsbatch.py barcodefile.txt anynumberoffastqfiles
+# This should be run from within the folder with all of your original .fastqstrim
+# Will quality trim multiple SINGLE-END fastq files
+# Things to customize for your particular platform:
+```
+
+12. cp the /cm/shared/courses/dbarshis/21AdvGenomics/assignments_exercises/day03/adapterlist_advbioinf.txt into the working directory with your fastq files.
+
+```
+[apear012@turing1 fastq]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq
+[apear012@turing1 fastq]$ cp /cm/shared/courses/dbarshis/21AdvGenomics/assignments_exercises/day03/adapterlist_advbioinf.txt .
+[apear012@turing1 fastq]$ ls
+adapterlist_advbioinf.txt   RI_B_01_14.fastq   RI_W_01_14.fastq   VA_B_01_14.fastq   VA_W_01_14.fastq
+APRenameLane01Files.sh      RI_B_01_18.fastq   RI_W_01_18.fastq   VA_B_01_18.fastq   VA_W_01_18.fastq
+APRenameLane01Files.txt     RI_B_01_22.fastq   RI_W_01_22.fastq   VA_B_01_22.fastq   VA_W_01_22.fastq
+renamingtable_complete.txt  RI_B_08_SNP.fastq  RI_W_08_SNP.fastq  VA_B_09_SNP.fastq  VA_W_08_SNP.fastq
+```
+13. Make a sbatch script for the Trimclipfilter... script and run it on your fastq files
+
+```
+[apear012@turing1 fastq]$ nano APTrimLane01Files.sh
+[apear012@turing1 fastq]$ cat APTrimLane01Files.sh 
+#!/bin/bash -l
+
+#SBATCH -o APTrimLane01Files.txt
+#SBATCH -n 1
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=APTrimLane01Files
+
+../../scripts/Trimclipfilterstatsbatch_advbioinf.py adapterlist_advbioinf.txt ./*.fastq*
+[apear012@turing1 fastq]$ sbatch APTrimLane01Files.sh 
+Submitted batch job 9270540
+```
+Email received immediately saying my job had failed.
