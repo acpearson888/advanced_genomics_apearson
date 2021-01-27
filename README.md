@@ -132,3 +132,65 @@ gunzip *.fastq.gz
 [apear012@turing1 data]$ sbatch APGunzipLane01Files.sh 
 Submitted batch job 9270467
 ```
+This is the day03 homework:
+1. cp the /cm/shared/courses/dbarshis/21AdvGenomics/assignments_exercises/day03 directory (and files) to your sandbox.
+
+```
+[apear012@turing1 apearson]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson
+[apear012@turing1 apearson]$ cp -r /cm/shared/courses/dbarshis/21AdvGenomics/assignments_exercises/day03 .
+[apear012@turing1 apearson]$ ls
+AP_exercise1.txt  data  day03  groundrules.txt  scripts
+```
+2. mkdir a fastq directory in your data directory and mv all the .fastq files into this directory
+```
+[apear012@turing1 data]$ mkdir fastq
+[apear012@turing1 data]$ mv ./*.fastq fastq
+[apear012@turing1 data]$ cd fastq
+[apear012@turing1 fastq]$ ls
+HADB01-A_S17_L002_R1_001.fastq  HADB01-G_S23_L002_R1_001.fastq  HADB01-M_S29_L002_R1_001.fastq
+HADB01-B_S18_L002_R1_001.fastq  HADB01-H_S24_L002_R1_001.fastq  HADB01-N_S30_L002_R1_001.fastq
+HADB01-C_S19_L002_R1_001.fastq  HADB01-I_S25_L002_R1_001.fastq  HADB01-O_S31_L002_R1_001.fastq
+HADB01-D_S20_L002_R1_001.fastq  HADB01-J_S26_L002_R1_001.fastq  HADB01-P_S32_L002_R1_001.fastq
+HADB01-E_S21_L002_R1_001.fastq  HADB01-K_S27_L002_R1_001.fastq
+HADB01-F_S22_L002_R1_001.fastq  HADB01-L_S28_L002_R1_001.fastq
+```
+3. cp the renamingtable_complete.txt from the day03 directory into your fastq directory and the /cm/shared/courses/dbarshis/21AdvGenomics/scripts/renamer_advbioinf.py script into your sandbox scripts folder and less the new script and check out the usage statement
+
+```
+[apear012@turing1 fastq]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq
+[apear012@turing1 fastq]$ cp /cm/shared/courses/dbarshis/21AdvGenomics/assignments_exercises/day03/renamingtable_complete.txt .
+[apear012@turing1 fastq]$ ls
+HADB01-A_S17_L002_R1_001.fastq  HADB01-G_S23_L002_R1_001.fastq  HADB01-M_S29_L002_R1_001.fastq
+HADB01-B_S18_L002_R1_001.fastq  HADB01-H_S24_L002_R1_001.fastq  HADB01-N_S30_L002_R1_001.fastq
+HADB01-C_S19_L002_R1_001.fastq  HADB01-I_S25_L002_R1_001.fastq  HADB01-O_S31_L002_R1_001.fastq
+HADB01-D_S20_L002_R1_001.fastq  HADB01-J_S26_L002_R1_001.fastq  HADB01-P_S32_L002_R1_001.fastq
+HADB01-E_S21_L002_R1_001.fastq  HADB01-K_S27_L002_R1_001.fastq  renamingtable_complete.txt
+HADB01-F_S22_L002_R1_001.fastq  HADB01-L_S28_L002_R1_001.fastq
+```
+```
+[apear012@turing1 scripts]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/scripts
+[apear012@turing1 scripts]$ cp /cm/shared/courses/dbarshis/21AdvGenomics/scripts/renamer_advbioinf.py .
+[apear012@turing1 scripts]$ ls
+avg_cov_len_fasta_advbioinf.py  renamer_advbioinf.py
+[apear012@turing1 scripts]$ less renamer_advbioinf.py 
+```
+renamer_advbioinf.py :
+```
+#!/usr/bin/env python
+####usage renamer.py renamingtable
+#### this script take the entries in the first column of table and renames (mv's) them to files with the names in the second column
+import sys
+import os
+
+fin=open(sys.argv[1],'r')
+linecount=0
+for line in fin:
+	linecount+=1
+	if linecount>=2:
+		cols=line.rstrip().split('\t')
+		print 'mv %s %s' %(cols[0], cols[1])
+#		os.popen('mv %s %s' %(cols[0], cols[1]))
+```
