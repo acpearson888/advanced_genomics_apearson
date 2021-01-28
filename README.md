@@ -430,3 +430,30 @@ renamingtable_complete.txt  RI_B_08_SNP.fastq  RI_W_08_SNP.fastq  VA_B_09_SNP.fa
 Submitted batch job 9270540
 ```
 Email received immediately saying my job had failed.
+
+```
+[apear012@turing1 fastq]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq
+[apear012@turing1 fastq]$ nano APTrimLane01Files.sh 
+[apear012@turing1 fastq]$ cat APTrimLane01Files.sh
+#!/bin/bash -l
+
+#SBATCH -o APTrimLane01Files.txt
+#SBATCH -n 1
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=APTrimLane01Files
+
+../../scripts/Trimclipfilterstatsbatch_advbioinf.py adapterlist_advbioinf.txt *.fastq
+```
+
+```
+[apear012@turing1 fastq]$ sbatch APTrimLane01Files.sh
+Submitted batch job 9270839
+[apear012@turing1 fastq]$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9270839      main APTrimLa apear012  R       0:00      1 coreV1-22-016 
+```
+
+14. This will take a while (like days)
+15. Now might be a good time to update everything on your github
