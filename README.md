@@ -532,3 +532,5 @@ apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/da
            9271109      main APbowtie apear012  R       0:07      1 coreV2-25-007 
            
 ```
+4. Submit and add everything to your logfile.
+See above.
