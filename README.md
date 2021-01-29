@@ -461,7 +461,8 @@ Submitted batch job 9270839
 ## Day 04 29-Jan-2021
 
 1. Add your trimclipstats.txt output to the full class datafile /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/Fulltrimclipstatstable.txt using the following steps
-	1a. Run /cm/shared/courses/dbarshis/21AdvGenomics/scripts/Schafran_trimstatstable_advbioinf_clippedtrimmed.py -h to examine usage
+	
+1a. Run /cm/shared/courses/dbarshis/21AdvGenomics/scripts/Schafran_trimstatstable_advbioinf_clippedtrimmed.py -h to examine usage
 ```
 [apear012@coreV2-25-072 filteringstats]$ pwd
 /cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/filteringstats
