@@ -2,18 +2,18 @@
 
 ## Day 02 22-Jan-2021
 
-4- execute a pwd command and start a log of your commands with a header for today's date in your README.md github logfile in your workspace
+4. execute a pwd command and start a log of your commands with a header for today's date in your README.md github logfile in your workspace
 ```
 [apear012@turing1 exercises]$ pwd
 /cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/exercises
 ```
-5- cp the Exercise2.fasta.gz and Exercise2.fastq.tar.gz files into your exercises directory
+5. cp the Exercise2.fasta.gz and Exercise2.fastq.tar.gz files into your exercises directory
 ```
 [apear012@turing1 exercises]$ cp /cm/shared/courses/dbarshis/21AdvGenomics/assignments_exercises/day02/Exercise* .
 [apear012@turing1 exercises]$ ls
 Exercise2.fasta.gz  Exercise2.fastq.tar.gz
 ```
-6- unzip and untar the files
+6. unzip and untar the files
 ```
 [apear012@turing1 exercises]$ gunzip Exercise2.fasta.gz
 [apear012@turing1 exercises]$ ls
@@ -32,7 +32,7 @@ Exercise2.fastq
 Exercise2.fasta  Exercise2.fastq  Exercise2.fastq.tar.gz
 ```
 
-8- calculate how many sequences are in each file and add these results to your notebook file
+8. calculate how many sequences are in each file and add these results to your notebook file
 ```
 [apear012@turing1 exercises]$ grep -c '>' Exercise2.fasta
 138
@@ -44,13 +44,13 @@ Exercise2.fasta  Exercise2.fastq  Exercise2.fastq.tar.gz
 [apear012@turing1 exercises]$ echo 245216/4 | bc 
 61304
 ```
-9- cp the avg_cov_len_fasta_advbioinf.py from the /cm/shared/courses/dbarshis/21AdvGenomics/scripts directory into your class scripts directory
+9. cp the avg_cov_len_fasta_advbioinf.py from the /cm/shared/courses/dbarshis/21AdvGenomics/scripts directory into your class scripts directory
 ```
 [apear012@turing1 scripts]$ cp /cm/shared/courses/dbarshis/21AdvGenomics/scripts/avg_cov_len_fasta_advbioinf.py .
 [apear012@turing1 scripts]$ ls
 avg_cov_len_fasta_advbioinf.py
 ```
-10- start an interactive compute session and re-navigate to your exercises directory
+10. start an interactive compute session and re-navigate to your exercises directory
 ```
 wahab-01:~> salloc
 salloc: Pending job allocation 133736
@@ -61,7 +61,7 @@ This session will be terminated in 7 days. If your application requires
 a longer excution time, please use command "salloc -t N-0" where N is the
 number of days that you need.
 ```
-11- run the avg_cov_len_fasta_DJB.py script on your Exercise2.fasta file by typing the path to the script followed by the Exercise2.fasta file name
+11. run the avg_cov_len_fasta_DJB.py script on your Exercise2.fasta file by typing the path to the script followed by the Exercise2.fasta file name
 ```
  e2-w6420b-01:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/exercises> ../../scripts//avg_cov_len_fasta_advbioinf.py Exercise2.fasta
 The total number of sequences is 138
@@ -80,7 +80,7 @@ contigs >= 2000bp = 135
 ## Day 03 27-Jan-2021
 Below is technically the day02 homework.
 
-1- Write an sbatch script to cp the files /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/originalfastqs/ into your own data directory, Andrew-HADB01
+1. Write an sbatch script to cp the files /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/originalfastqs/ into your own data directory, Andrew-HADB01
 ```
 [apear012@coreV2-25-072 data]$ pwd
 /cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data
@@ -98,10 +98,10 @@ APCopyLane01.sh  exercises
 
 cp /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/originalfastqs/HADB01* /cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data
 ```
-2- Add the content of your sbatch script to your logfile
+2. Add the content of your sbatch script to your logfile
 Did this above.
 
-3- submit the slurm script (sbatch scripname.sh) and verify that it's working (by squeue -u yourusername multiple times and checking the destination directory to make sure the files are being created)
+3. submit the slurm script (sbatch scripname.sh) and verify that it's working (by squeue -u yourusername multiple times and checking the destination directory to make sure the files are being created)
 ```
 [apear012@coreV2-25-072 data]$ sbatch APCopyLane01.sh
 Submitted batch job 9270452
@@ -111,10 +111,10 @@ Submitted batch job 9270452
            9270452      main APCopyLa apear012  R       0:29      1 coreV2-25-072 
 ```
 
-4- Make sure this is all documented on your github notebook
+4. Make sure this is all documented on your github notebook
 See above.
 
-5- Write a sbatch script to gunzip all the fastq.gz files in your data directory
+5. Write a sbatch script to gunzip all the fastq.gz files in your data directory
 
 ```
 [apear012@turing1 data]$ pwd
@@ -132,7 +132,7 @@ gunzip *.fastq.gz
 [apear012@turing1 data]$ sbatch APGunzipLane01Files.sh 
 Submitted batch job 9270467
 ```
-This is the day03 homework:
+**This is the day03 homework:**
 1. cp the /cm/shared/courses/dbarshis/21AdvGenomics/assignments_exercises/day03 directory (and files) to your sandbox.
 
 ```
@@ -457,3 +457,77 @@ Submitted batch job 9270839
 
 14. This will take a while (like days)
 15. Now might be a good time to update everything on your github
+
+## Day 04 29-Jan-2021
+
+1. Add your trimclipstats.txt output to the full class datafile /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/Fulltrimclipstatstable.txt using the following steps
+	1a. Run /cm/shared/courses/dbarshis/21AdvGenomics/scripts/Schafran_trimstatstable_advbioinf_clippedtrimmed.py -h to examine usage
+```
+[apear012@coreV2-25-072 filteringstats]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/filteringstats
+[apear012@turing1 filteringstats]$ python /cm/shared/courses/dbarshis/21AdvGenomics/scripts/Schafran_trimstatstable_advbioinf_clippedtrimmed.py -h
+Written by Peter Schafran pscha005@odu.edu 5-Oct-2015
+
+This script takes a stats output file from fastx_clipper and converts it into a table.
+
+Usage: Schafran_trimstatstable.py [-c, -v, -h] inputfile.txt outputfile.txt
+
+Options (-c and -v must be listed separately to run together):
+-h	Display this help message
+-c	Use comma delimiter instead of tabs
+-v	Verbose mode (print steps to stdout)
+```
+1b. Run the script on your data with the outputfilename YOURNAME_trimclipstatsout.txt
+
+```
+[apear012@coreV2-25-072 filteringstats]$ python /cm/shared/courses/dbarshis/21AdvGenomics/scripts/Schafran_trimstatstable_advbioinf_clippedtrimmed.py trimclipstats.txt ANDREW_trimclipstatsout.txt
+```
+
+1c. Add YOURNAME_trimclipstatsout.txt to the class file by running tail -n +2 YOURNAME_trimclipstatsout.txt >> /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/Fulltrimclipstatstable.txt
+
+```
+[apear012@turing1 filteringstats]$ tail -n +2 ANDREW_trimclipstatsout.txt >> /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/Fulltrimclipstatstable.txt
+```
+
+
+2. Now we're going to map our reads back to our assembly using the bowtie2 alignment algorithm (starting to follow this pipeline https://github.com/bethsheets/SNPcalling_tutorial)
+
+3. write a sbatch script to do the following commands in sequence on your _clippedtrimmedfilterd.fastq datafiles from your lane of data
+
+```
+module load bowtie2/2.2.4
+for i in *_clippedtrimmed.fastq; do bowtie2 --rg-id ${i%_clippedtrimmed.fastq} \
+--rg SM:${i%_clippedtrimmed.fastq} \
+--very-sensitive -x /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/refassembly/Apoc_hostsym -U $i \
+> ${i%_clippedtrimmedfilterd.fastq}.sam --no-unal -k 5; done
+```
+```
+apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs$ nano APbowtie.sh
+```
+APbowtie.sh:
+```
+#!/bin/bash -l
+
+#SBATCH -o APbowtie.txt
+#SBATCH -n 1
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=APbowtie
+
+module load bowtie2/2.2.4
+for i in *_clippedtrimmed.fastq; do bowtie2 --rg-id ${i%_clippedtrimmed.fastq} \
+--rg SM:${i%_clippedtrimmed.fastq} \
+--very-sensitive -x /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/refassembly/Apoc_hostsym -U $i \
+> ${i%_clippedtrimmedfilterd.fastq}.sam --no-unal -k 5; done
+```
+```
+apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs$ sbatch APbowtie.sh 
+Submitted batch job 9271109
+apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9271094      main       sh apear012  R      54:07      1 coreV2-25-072 
+           9271109      main APbowtie apear012  R       0:07      1 coreV2-25-007 
+           
+```
