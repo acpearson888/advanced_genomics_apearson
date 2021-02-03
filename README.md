@@ -530,7 +530,7 @@ apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/da
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
            9271094      main       sh apear012  R      54:07      1 coreV2-25-072 
            9271109      main APbowtie apear012  R       0:07      1 coreV2-25-007 
-           ```
+```
 
 4. Submit and add everything to your logfile.
 
