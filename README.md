@@ -530,8 +530,70 @@ apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/da
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
            9271094      main       sh apear012  R      54:07      1 coreV2-25-072 
            9271109      main APbowtie apear012  R       0:07      1 coreV2-25-007 
-           
-```
+           ```
+
 4. Submit and add everything to your logfile.
 
 See above.
+
+## Day 05 03-Feb-2021
+
+1. Team up with a partner for this one and work only on a combined set of data for your two lanes of sequences
+
+Partner: Areej 
+Lanes: 01, 06, and 07
+
+2. Run the Trinity denovo assembler on your clippedtrimmed.fastq files for your two lanes together
+
+3. Modify the below sbatch script (note the differences in the header compared to the previous one)
+
+original script:
+```
+#!/bin/bash -l
+
+#SBATCH -o OUTFILE.txt
+#SBATCH -n 32
+#SBATCH -p himem
+#SBATCH --mail-user=YOUREMAIL@odu.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=YOURJOBNAME
+
+enable_lmod
+module load container_env trinity
+
+crun Trinity --seqType fq --max_memory 768G --normalize_reads --single ALLSINGLEENDREADSSEPARATEDBYCOMMAS --CPU 32
+```
+Edited script (renamed APAMAssemble.sh in /cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs/apam/)
+```
+#!/bin/bash -l
+
+#SBATCH -o APAMAssemble.txt
+#SBATCH -n 32
+#SBATCH -p himem
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=APAMAssemble
+
+enable_lmod
+module load container_env trinity
+
+crun Trinity --seqType fq --max_memory 768G --normalize_reads --single RI_B_01_14_clippedtrimmed.fastq,RI_W_06_18_clippedtrimmed.fastq,VA_B_07_22_clippedtrimmed.fastq,RI_B_01_18_clippedtrimmed.fastq,RI_W_07_14_clippedtrimmed.fastq,VA_B_09_SNP_clippedtrimmed.fastq,RI_B_01_22_clippedtrimmed.fastq,RI_W_07_18_clippedtrimmed.fastq,VA_W_01_14_clippedtrimmed.fastq,RI_B_06_18_clippedtrimmed.fastq,RI_W_07_22_clippedtrimmed.fastq,VA_W_01_18_clippedtrimmed.fastq,RI_B_07_14_clippedtrimmed.fastq,RI_W_08_SNP_clippedtrimmed.fastq,VA_W_01_22_clippedtrimmed.fastq,RI_B_07_18_clippedtrimmed.fastq,VA_B_01_14_clippedtrimmed.fastq,VA_W_06_18_clippedtrimmed.fastq,RI_B_07_22_clippedtrimmed.fastq,VA_B_01_18_clippedtrimmed.fastq,VA_W_07_14_clippedtrimmed.fastq,RI_B_08_SNP_clippedtrimmed.fastq,VA_B_01_22_clippedtrimmed.fastq,VA_W_07_18_clippedtrimmed.fastq,RI_W_01_14_clippedtrimmed.fastq,VA_B_06_18_clippedtrimmed.fastq,VA_W_07_22_clippedtrimmed.fastq,RI_W_01_18_clippedtrimmed.fastq,VA_B_07_14_clippedtrimmed.fastq,VA_W_08_SNP_clippedtrimmed.fastq,RI_W_01_22_clippedtrimmed.fastq,VA_B_07_18_clippedtrimmed.fastq --CPU 32
+```
+
+4. Check https://trinityrnaseq.github.io/ for usage info
+
+5. Submit your trinity script
+
+```
+[apear012@turing1 apam]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs/apam
+[apear012@coreV2-22-007 apam]$ sbatch APAMAssemble.sh 
+Submitted batch job 9272358
+[apear012@coreV2-22-007 apam]$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9272358     himem APAMAsse apear012 PD       0:00      1 (Resources) 
+           9272334      main       sh apear012  R    1:19:02      1 coreV2-25-002 
+           9272357      main       sh apear012  R       6:01      1 coreV2-22-007 
+```
+
+
