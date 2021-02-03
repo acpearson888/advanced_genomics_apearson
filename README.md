@@ -523,6 +523,7 @@ for i in *_clippedtrimmed.fastq; do bowtie2 --rg-id ${i%_clippedtrimmed.fastq} \
 --very-sensitive -x /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/refassembly/Apoc_hostsym -U $i \
 > ${i%_clippedtrimmedfilterd.fastq}.sam --no-unal -k 5; done
 ```
+
 ```
 apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs$ sbatch APbowtie.sh 
 Submitted batch job 9271109
@@ -595,5 +596,22 @@ Submitted batch job 9272358
            9272334      main       sh apear012  R    1:19:02      1 coreV2-25-002 
            9272357      main       sh apear012  R       6:01      1 coreV2-22-007 
 ```
+Job failed after ~15min.
 
+edited APAMAssemble.sh (removed --normalize_reads):
+```
+#!/bin/bash -l
+
+#SBATCH -o APAMAssemble.txt
+#SBATCH -n 32
+#SBATCH -p himem
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=APAMAssemble
+
+enable_lmod
+module load container_env trinity
+
+crun Trinity --seqType fq --max_memory 768G --single RI_B_01_14_clippedtrimmed.fastq,RI_W_06_18_clippedtrimmed.fastq,VA_B_07_22_clippedtrimmed.fastq,RI_B_01_18_clippedtrimmed.fastq,RI_W_07_14_clippedtrimmed.fastq,VA_B_09_SNP_clippedtrimmed.fastq,RI_B_01_22_clippedtrimmed.fastq,RI_W_07_18_clippedtrimmed.fastq,VA_W_01_14_clippedtrimmed.fastq,RI_B_06_18_clippedtrimmed.fastq,RI_W_07_22_clippedtrimmed.fastq,VA_W_01_18_clippedtrimmed.fastq,RI_B_07_14_clippedtrimmed.fastq,RI_W_08_SNP_clippedtrimmed.fastq,VA_W_01_22_clippedtrimmed.fastq,RI_B_07_18_clippedtrimmed.fastq,VA_B_01_14_clippedtrimmed.fastq,VA_W_06_18_clippedtrimmed.fastq,RI_B_07_22_clippedtrimmed.fastq,VA_B_01_18_clippedtrimmed.fastq,VA_W_07_14_clippedtrimmed.fastq,RI_B_08_SNP_clippedtrimmed.fastq,VA_B_01_22_clippedtrimmed.fastq,VA_W_07_18_clippedtrimmed.fastq,RI_W_01_14_clippedtrimmed.fastq,VA_B_06_18_clippedtrimmed.fastq,VA_W_07_22_clippedtrimmed.fastq,RI_W_01_18_clippedtrimmed.fastq,VA_B_07_14_clippedtrimmed.fastq,VA_W_08_SNP_clippedtrimmed.fastq,RI_W_01_22_clippedtrimmed.fastq,VA_B_07_18_clippedtrimmed.fastq --CPU 32
+```
 
