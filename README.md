@@ -623,3 +623,91 @@ Submitted batch job 9272385
            9272385     himem APAMAsse apear012  R       0:14      1 coreV4-21-himem-003 
 ```
 
+## Day 06 05-Feb-2021
+
+1. start an interactive session via salloc and run the /cm/shared/apps/trinity/2.0.6/util/TrinityStats.pl script on your Trinity.fasta output from your assembly
+
+```
+[apear012@turing1 apam]$ salloc
+salloc: Pending job allocation 9272856
+salloc: job 9272856 queued and waiting for resources
+salloc: job 9272856 has been allocated resources
+salloc: Granted job allocation 9272856
+```
+
+```
+[apear012@coreV2-22-028 djbtestassembly]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs/apam/djbtestassembly
+[apear012@coreV2-22-028 djbtestassembly]$ /cm/shared/apps/trinity/2.0.6/util/TrinityStats.pl Trinity.fasta 
+
+
+################################
+## Counts of transcripts, etc.
+################################
+Total trinity 'genes':	20980
+Total trinity transcripts:	21992
+Percent GC: 46.21
+
+########################################
+Stats based on ALL transcript contigs:
+########################################
+
+	Contig N10: 1178
+	Contig N20: 694
+	Contig N30: 514
+	Contig N40: 414
+	Contig N50: 347
+
+	Median contig length: 273
+	Average contig: 356.95
+	Total assembled bases: 7850006
+
+
+#####################################################
+## Stats based on ONLY LONGEST ISOFORM per 'GENE':
+#####################################################
+
+	Contig N10: 1027
+	Contig N20: 643
+	Contig N30: 486
+	Contig N40: 397
+	Contig N50: 336
+
+	Median contig length: 271
+	Average contig: 347.72
+	Total assembled bases: 7295061
+
+```
+2. compare this with the output from avg_cov_len_fasta_advbioinf.py on our class reference assembly (/cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/refassembly/15079_Apoc_hostsym.fasta) and add both to your logfile
+```
+[apear012@coreV2-22-028 scripts]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/scripts
+[apear012@coreV2-22-028 scripts]$ python avg_cov_len_fasta_advbioinf.py /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/refassembly/15079_Apoc_hostsym.fasta
+The total number of sequences is 15079
+The average sequence length is 876
+The total number of bases is 13210470
+The minimum sequence length is 500
+The maximum sequence length is 10795
+The N50 is 881
+Median Length = 578
+contigs < 150bp = 0
+contigs >= 500bp = 15079
+contigs >= 1000bp = 3660
+contigs >= 2000bp = 536
+[apear012@coreV2-22-028 scripts]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/scripts
+```
+```
+[apear012@coreV2-22-028 scripts]$ python avg_cov_len_fasta_advbioinf.py /cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs/apam/djbtestassembly/Trinity.fasta 
+The total number of sequences is 21992
+The average sequence length is 356
+The total number of bases is 7850006
+The minimum sequence length is 192
+The maximum sequence length is 10795
+The N50 is 347
+Median Length = 355
+contigs < 150bp = 0
+contigs >= 500bp = 2862
+contigs >= 1000bp = 607
+contigs >= 2000bp = 91
+```
