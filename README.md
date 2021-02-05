@@ -711,3 +711,107 @@ contigs >= 500bp = 2862
 contigs >= 1000bp = 607
 contigs >= 2000bp = 91
 ```
+3. less or head your bowtie2 job output file to look at your alignment statistics and calculate the following from the information:
+	a-the mean percent "overall alignment rate"
+```
+[apear012@turing1 QCFastqs]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+[apear012@turing1 QCFastqs]$ grep 'overall alignment rate' APbowtie.txt | cut -d '%' -f 1
+3.22
+1.74
+1.41
+1.65
+2.01
+1.86
+1.34
+1.49
+2.68
+7.09
+1.84
+1.83
+1.75
+1.70
+52.97
+1.47
+```
+	b-the mean percent reads "aligned exactly 1 time"
+```
+[apear012@turing1 QCFastqs]$ grep 'aligned exactly 1 time' APbowtie.txt | cut -d '%' -f 1 | cut -d '(' -f 2
+1.63
+1.18
+1.00
+1.18
+0.67
+1.21
+0.88
+0.94
+1.71
+5.19
+1.29
+1.23
+1.09
+1.18
+0.55
+1.03
+```
+	c-the mean number of reads "aligned exactly 1 time"
+```
+[apear012@turing1 QCFastqs]$ grep 'aligned exactly 1 time' APbowtie.txt | cut -d '%' -f 1 | cut -d ' ' -f 5
+117712
+281939
+240500
+256601
+40180
+298308
+182262
+381640
+354945
+1169727
+374006
+332280
+168092
+330623
+397
+276577
+```
+	d-the mean percent reads "aligned >1 times"
+```
+[apear012@turing1 QCFastqs]$ grep 'aligned >1 time' APbowtie.txt | cut -d '%' -f 1 | cut -d '(' -f 2
+1.59
+0.56
+0.41
+0.47
+1.34
+0.65
+0.45
+0.55
+0.97
+1.91
+0.55
+0.60
+0.66
+0.51
+52.42
+0.44
+```
+	
+	hint use grep and paste into excel
+	
+Copied each of these outputs into excel and averaged. This was used for the next step to make the alignstatsAP.txt
+
+
+4. add your statistics as single rows to the shared table /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/alignmentstatstable.txt as tab-delimited text in the following order:
+LaneX_yourinitials	b-the mean percent "overall alignment rate"	c-the mean percent reads "aligned exactly 1 time"	d-the mean number of reads "aligned exactly 1 time"	e-the mean percent reads "aligned >1 times"
+```
+[apear012@turing1 QCFastqs]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+[apear012@turing1 QCFastqs]$ nano alignstatsAP.txt
+[apear012@turing1 QCFastqs]$ cat alignstatsAP.txt 
+Lane1AP	5.378125	1.3725	300361.8125	4.005
+[apear012@turing1 QCFastqs]$ cat alignstatsAP.txt >> /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/alignmentstatstable.txt
+[apear012@turing1 QCFastqs]$ tail /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/alignmentstatstable.txt
+LaneX	overallalignmentrate	percsinglyaligned	numsinglyaligned	percmultiplyaligned
+LaneX_djb	2.495714286	1.251428571	247656.7143	1.247142857
+LaneX_djb	2.495714286	1.251428571	247656.7143	1.247142857
+Lane1AP	5.378125	1.3725	300361.8125	4.005
+```
