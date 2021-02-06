@@ -815,3 +815,44 @@ LaneX_djb	2.495714286	1.251428571	247656.7143	1.247142857
 LaneX_djb	2.495714286	1.251428571	247656.7143	1.247142857
 Lane1AP	5.378125	1.3725	300361.8125	4.005
 ```
+
+5. Data cleanup and archiving:
+a. mv your Trinity.fasta file from your trinity_out_dir to a folder called testassembly in your data directory
+```
+[apear012@turing1 trinity_out_dir]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs/apam/trinity_out_dir
+[apear012@turing1 trinity_out_dir]$ mkdir ../../../../testassembly
+[apear012@turing1 trinity_out_dir]$ mv Trinity.fasta ../../../../testassembly/
+```
+b. set up a sbatch script to:
+		rm -r YOURtrinity_out_dir
+		rm -r YOURoriginalfastqs
+		rm -r YOURfilteringstats # as long as you've already appended your filteringstats output to the class table as part of homework_day04.txt
+
+```
+[apear012@turing1 fastq]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq
+[apear012@turing1 fastq]$ nano AP_Cleanup.sh
+```
+
+AP_Cleanup.sh:
+```
+#!/bin/bash -l
+
+#SBATCH -o AP_Cleanup.txt
+#SBATCH -n 1
+#SBATCH --mail-user=acpearson@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=AP_Cleanup
+
+rm -r ./QCFastqs/apam/trinity_out_dir
+rm -r filteringstats
+rm -r originalfastqs
+```
+```
+[apear012@turing1 fastq]$ sbatch AP_Cleanup.sh 
+Submitted batch job 9273047
+[apear012@turing1 fastq]$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9273047      main AP_Clean apear012  R       0:01      1 coreV1-22-003 
+```
