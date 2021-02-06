@@ -857,3 +857,298 @@ Submitted batch job 9273047
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
            9273047      main AP_Clean apear012  R       0:01      1 coreV1-22-003 
 ```
+6. submit a blast against sprot from your testassembly folder using the following command
+#!/bin/bash -l
+
+#SBATCH -o OUTFILENAME.txt
+#SBATCH -n 6         
+#SBATCH --mail-user=EMAIL
+#SBATCH --mail-type=END
+#SBATCH --job-name=JOBNAME
+
+enable_lmod
+module load container_env blast
+blastx -query Trinity.fasta -db /cm/shared/apps/blast/databases/uniprot_sprot_Sep2018 -out blastx.outfmt6 \
+        -evalue 1e-20 -num_threads 6 -max_target_seqs 1 -outfmt 6
+###Exploring our SAM files, check out http://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#sam-output for bowtie2 specific output and http://bio-bwa.sourceforge.net/bwa.shtml#4 for general SAM output
+```
+[apear012@turing1 testassembly]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/testassembly
+[apear012@turing1 testassembly]$ nano AP_Blast.sh
+```
+AP_Blast.sh:
+```
+#!/bin/bash -l
+
+#SBATCH -o AP_Blast.txt
+#SBATCH -n 1
+#SBATCH --mail-user=acpearson@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=AP_Blast
+
+enable_lmod
+module load container_env blast
+blastx -query Trinity.fasta -db /cm/shared/apps/blast/databases/uniprot_sprot_Sep2018 -out blastx.outfmt6 \
+        -evalue 1e-20 -num_threads 6 -max_target_seqs 1 -outfmt 6
+```
+```
+[apear012@turing1 testassembly]$ ls
+AP_Blast.sh  Trinity.fasta
+[apear012@turing1 testassembly]$ sbatch AP_Blast.sh 
+Submitted batch job 9273048
+[apear012@turing1 testassembly]$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9273048      main AP_Blast apear012  R       0:02      1 coreV1-22-016 
+```
+7. head one of your .sam files to look at the header
+```
+[apear012@turing1 QCFastqs]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+[apear012@turing1 QCFastqs]$ head RI_B_01_14_clippedtrimmed.fastq.sam 
+@HD	VN:1.0	SO:unsorted
+@SQ	SN:TR78|c0_g1_i1_coral	LN:1109
+@SQ	SN:TR78|c0_g2_i1_coral	LN:1109
+@SQ	SN:TR79|c0_g1_i1_coral	LN:610
+@SQ	SN:TR79|c0_g2_i1_coral	LN:1549
+@SQ	SN:TR87|c0_g1_i1_coral	LN:732
+@SQ	SN:TR93|c0_g1_i1_coral	LN:550
+@SQ	SN:TR101|c0_g1_i1_coral	LN:673
+@SQ	SN:TR104|c0_g1_i1_coral	LN:607
+@SQ	SN:TR105|c0_g1_i1_coral	LN:587
+```
+8. grep -v '@' your.sam | head to look at the sequence read lines, why does this work to exclude the header lines?
+```
+[apear012@turing1 QCFastqs]$ grep -v '@' RI_B_01_14_clippedtrimmed.fastq.sam | head
+K00188:59:HMTFHBBXX:2:1101:25814:1701	16	TR14006|c0_g2_i1_coral	317	255	51M	*	0	CAGCTGGAAATTCACGTGGTGGCAGTGGAAGTGGCTTTTGACAGAAATCTG	AJJJJJJJJJJJJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJFFFFAA	AS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:19827:1912	0	TR6438|c0_g1_i3_coral	30	1	51M	*	0	TGAACATAGGCCGCTAACATCAAGGCATAAAAGTTTTGTGGCCGTTTTCGA	AAFFFJJJJJJJJJJJJJJJFJJJFJJJJJJJJJJJJJJJJJJJJFJJJJJ	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:19827:1912	256	TR6438|c0_g1_i1_coral	30	255	51M	*	0	TGAACATAGGCCGCTAACATCAAGGCATAAAAGTTTTGTGGCCGTTTTCGA	AAFFFJJJJJJJJJJJJJJJFJJJFJJJJJJJJJJJJJJJJJJJJFJJJJJ	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:19827:1912	256	TR6438|c0_g1_i4_coral	30	255	51M	*	0	TGAACATAGGCCGCTAACATCAAGGCATAAAAGTTTTGTGGCCGTTTTCGA	AAFFFJJJJJJJJJJJJJJJFJJJFJJJJJJJJJJJJJJJJJJJJFJJJJJ	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:23622:1912	16	TR43756|c0_g1_i1_coral	7449	1	51M	*	0	GGGGCCGAAGCCCCTGCAATTAAAATTGTTGACCACCTACATACCAAAGAC	JJJJJJJJJJJJFJJJJJJJJJJJFJFJJJJJJJJJJJJJJFJJJJFAAAA	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:23622:1912	272	TR43756|c0_g1_i1_coral	2063	255	51M	*	0	GGGGCCGAAGCCCCTGCAATTAAAATTGTTGACCACCTACATACCAAAGAC	JJJJJJJJJJJJFJJJJJJJJJJJFJFJJJJJJJJJJJJJJFJJJJFAAAA	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:23622:1912	272	TR43756|c0_g2_i1_coral	2077	255	51M	*	0	GGGGCCGAAGCCCCTGCAATTAAAATTGTTGACCACCTACATACCAAAGAC	JJJJJJJJJJJJFJJJJJJJJJJJFJFJJJJJJJJJJJJJJFJJJJFAAAA	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:20212:1947	0	TR11796|c0_g1_i1_sym	24	1	51M	*	0	TCCACCTTCCTGCGCATACCATCCATCCTACGCTTGCTGCTGAAAACGTTG	-AAFAFFFJA--FJJJ<FJ77AFJ7-<JAJFF7-F<A7<F-FJA<FFJJFF	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:20212:1947	256	TR11796|c0_g2_i1_sym	552	255	51M	*	0	TCCACCTTCCTGCGCATACCATCCATCCTACGCTTGCTGCTGAAAACGTTG	-AAFAFFFJA--FJJJ<FJ77AFJ7-<JAJFF7-F<A7<F-FJA<FFJJFF	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+K00188:59:HMTFHBBXX:2:1101:23723:1947	0	TR43756|c0_g2_i1_coral	1579	1	51M	*	0	AACCATAACGAGCATCATCTTGATTAAGCTCATTAGGGTTAGCCTCGGTAC	AAFFFJJJJJJJJJJJJJJJJJJJJJJJJ7<FFJJJJJJJJFJJJJJJJJJ	AS:i:0	XS:i:0	XN:i:0	XM:i:0	XO:i:0	XG:i:0	NM:i:0	MD:Z:51	YT:Z:UU	RG:Z:RI_B_01_14
+```
+This works because the -v flag for grep means find all lines that DO NOT include '@'. Since all the header lines include @, they are excluded.
+
+9. in an interactive session run /cm/shared/courses/dbarshis/21AdvGenomics/scripts/get_explain_sam_flags_advbioinf.py on 2-3 of your .sam files using * to select 2-3 at the same time.
+```
+[apear012@turing1 QCFastqs]$ salloc
+salloc: Pending job allocation 9273049
+salloc: job 9273049 queued and waiting for resources
+salloc: job 9273049 has been allocated resources
+salloc: Granted job allocation 9273049
+[apear012@coreV1-22-016 QCFastqs]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+[apear012@coreV1-22-016 QCFastqs]$ python /cm/shared/courses/dbarshis/21AdvGenomics/scripts/get_explain_sam_flags_advbioinf.py *14_clippedtrimmed.fastq.sam
+RI_B_01_14_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+RI_W_01_14_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+VA_B_01_14_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+VA_W_01_14_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+[apear012@coreV1-22-016 QCFastqs]$ python /cm/shared/courses/dbarshis/21AdvGenomics/scripts/get_explain_sam_flags_advbioinf.py *18_clippedtrimmed.fastq.sam
+RI_B_01_18_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+RI_W_01_18_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+VA_B_01_18_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+VA_W_01_18_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+[apear012@coreV1-22-016 QCFastqs]$ python /cm/shared/courses/dbarshis/21AdvGenomics/scripts/get_explain_sam_flags_advbioinf.py *22_clippedtrimmed.fastq.sam
+RI_B_01_22_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+RI_W_01_22_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+VA_B_01_22_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+VA_W_01_22_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+[apear012@coreV1-22-016 QCFastqs]$ python /cm/shared/courses/dbarshis/21AdvGenomics/scripts/get_explain_sam_flags_advbioinf.py *SNP_clippedtrimmed.fastq.sam
+RI_B_08_SNP_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+RI_W_08_SNP_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+VA_B_09_SNP_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+VA_W_08_SNP_clippedtrimmed.fastq.sam
+['0', '272', '256', '16']
+0 :
+272 :
+	read reverse strand
+	not primary alignment
+256 :
+	not primary alignment
+16 :
+	read reverse strand
+```
+10. we need to run the read sorting step required for SNP calling, so if you have time, set up and run the following script on your .sam files to finish before Wednesday:
+#!/bin/bash -l
+
+#SBATCH -o OUTFILENAME.txt
+#SBATCH -n 1         
+#SBATCH --mail-user=EMAIL
+#SBATCH --mail-type=END
+#SBATCH --job-name=JOBNAME
+
+enable_lmod
+module load samtools/1
+for i in *.sam; do `samtools view -bS $i > ${i%.sam}_UNSORTED.bam`; done
+
+for i in *UNSORTED.bam; do samtools sort $i > ${i%_UNSORTED.bam}.bam
+samtools index ${i%_UNSORTED.bam}.bam
+done
+```
+[apear012@coreV1-22-016 QCFastqs]$ nano AP_Sort.sh
+```
+AP_Sort.sh:
+```
+#!/bin/bash -l
+
+#SBATCH -o AP_Sort.txt
+#SBATCH -n 1
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=AP_Sort
+
+enable_lmod
+module load samtools/1
+for i in *.sam; do `samtools view -bS $i > ${i%.sam}_UNSORTED.bam`; done
+
+for i in *UNSORTED.bam; do samtools sort $i > ${i%_UNSORTED.bam}.bam
+samtools index ${i%_UNSORTED.bam}.bam
+done
+```
+```
+[apear012@coreV1-22-016 QCFastqs]$ sbatch AP_Sort.sh 
+Submitted batch job 9273050
+[apear012@coreV1-22-016 QCFastqs]$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9273050      main  AP_Sort apear012  R       0:11      1 coreV1-22-016 
+           9273049      main       sh apear012  R      14:11      1 coreV1-22-016 
+           9273048      main AP_Blast apear012  R      21:11      1 coreV1-22-016 
+```
