@@ -817,6 +817,7 @@ Lane1AP	5.378125	1.3725	300361.8125	4.005
 ```
 
 5. Data cleanup and archiving:
+
 a. mv your Trinity.fasta file from your trinity_out_dir to a folder called testassembly in your data directory
 ```
 [apear012@turing1 trinity_out_dir]$ pwd
