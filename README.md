@@ -1302,4 +1302,17 @@ RI_W_01_22_clippedtrimmed.fastq.sam       VA_W_08_SNP_clippedtrimmed.fastq.bam
 RI_W_08_SNP_clippedtrimmed.fastq          VA_W_08_SNP_clippedtrimmed.fastq.bam.bai
 RI_W_08_SNP_clippedtrimmed.fastq.bam      VA_W_08_SNP_clippedtrimmed.fastq.sam
 ```
-
+```
+[apear012@coreV3-23-046 QCFastqs]$ enable lmod
+enable: Command not found.
+[apear012@coreV3-23-046 QCFastqs]$ enable_lmod
+[apear012@coreV3-23-046 QCFastqs]$ module load samtools
+[apear012@coreV3-23-046 QCFastqs]$ samtools tview RI_B_01_14_clippedtrimmed.fastq.bam /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/refassembly/15079_Apoc_hostsym.fasta
+1         11        21        31        41        51        61        71        
+TCAGGACCAAGTCCACTCATGATCGGAAGAGAAAACTTCTTTTTGGGATCGAATGGCCGGGCTCCAGACTTAGATATTAT
+                                                        ........................
+                                                        ,,,,,,,,,,,,,,,,,,,,,,,,
+                                                        ,,,,,,,,,,,,,,,,,,,,,,,,
+                                                        ,,,,,,,,,,,,,,,,,,,,,,,,
+                                                        ,,,,,,,,,,,,,,,,,,,,,,,,
+```
