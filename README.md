@@ -1152,3 +1152,58 @@ Submitted batch job 9273050
            9273049      main       sh apear012  R      14:11      1 coreV1-22-016 
            9273048      main AP_Blast apear012  R      21:11      1 coreV1-22-016 
 ```
+
+## Day 07 010-Feb-2021
+
+1. Run the following command on your sprot output file to process into the contig length/match format that trinity examines
+```
+#!/bin/bash -l
+
+#SBATCH -o OUTFILE.TXT
+#SBATCH -n 1
+#SBATCH --mail-user=YOUREMAIL.odu.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=JOBNAME
+
+/cm/shared/apps/trinity/2.0.6/util/analyze_blastPlus_topHit_coverage.pl blastx.outfmt6 Trinity.fasta /cm/shared/apps/blast/databases/uniprot_sprot_Sep2018.fasta
+```
+[apear012@turing1 testassembly]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/testassembly
+[apear012@turing1 testassembly]$ nano AP_BlastxToSprot.sh
+```
+AP_BlastxToSprot.sh:
+```
+#!/bin/bash -l
+
+#SBATCH -o AP_BlastxToSprot.txt
+#SBATCH -n 1
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=AP_BlastxToSprot
+
+/cm/shared/apps/trinity/2.0.6/util/analyze_blastPlus_topHit_coverage.pl blastx.outfmt6 Trinity.fasta /cm/shared/apps/blast/databases/uniprot_sprot_Sep2018.fasta
+```
+```
+[apear012@turing1 testassembly]$ sbatch AP_BlastxToSprot.sh 
+Submitted batch job 9276483
+[apear012@turing1 testassembly]$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9276483      main AP_Blast apear012 PD       0:00      1 (Priority) 
+[apear012@turing1 testassembly]$ ls
+AP_Blast.sh   AP_BlastxToSprot.sh   blastx.outfmt6       blastx.outfmt6.hist.list         Trinity.fasta
+AP_Blast.txt  AP_BlastxToSprot.txt  blastx.outfmt6.hist  blastx.outfmt6.w_pct_hit_length
+[apear012@turing1 testassembly]$ cat *.hist
+#hit_pct_cov_bin	count_in_bin	>bin_below
+100	198	198
+90	87	285
+80	88	373
+70	110	483
+60	146	629
+50	210	839
+40	339	1178
+30	650	1828
+20	1178	3006
+10	909	3915
+[apear012@turing1 testassembly]$ grep -c '>' Trinity.fasta 
+30194
+```
