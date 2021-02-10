@@ -1316,3 +1316,47 @@ TCAGGACCAAGTCCACTCATGATCGGAAGAGAAAACTTCTTTTTGGGATCGAATGGCCGGGCTCCAGACTTAGATATTAT
                                                         ,,,,,,,,,,,,,,,,,,,,,,,,
                                                         ,,,,,,,,,,,,,,,,,,,,,,,,
 ```
+3. Run the following to start genotyping your SNPs for filtering next class
+```
+#!/bin/bash -l
+
+#SBATCH -o OUTFILENAME.txt
+#SBATCH -n 1         
+#SBATCH --mail-user=EMAIL
+#SBATCH --mail-type=END
+#SBATCH --job-name=JOBNAME
+
+enable_lmod
+module load dDocent
+freebayes --genotype-qualities -f /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/refassembly/15079_Apoc_hostsym.fasta *.bam > YOURNAMEmergedfastqs.vcf
+```
+```
+[apear012@turing1 QCFastqs]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+[apear012@turing1 QCFastqs]$ nano AP_Freebayes.sh
+```
+AP_Freebayes.sh:
+```
+#!/bin/bash -l
+
+#SBATCH -o AP_Freebayes.txt
+#SBATCH -n 1
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=AP_Freebayes
+
+enable_lmod
+module load dDocent
+freebayes --genotype-qualities -f /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/refassembly/15079_Apoc_hostsym.fasta *.bam > APmergedfastqs.vcf
+```
+```
+[apear012@turing1 QCFastqs]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+[apear012@turing1 QCFastqs]$ sbatch AP_Freebayes.sh 
+Submitted batch job 9276576
+[apear012@turing1 QCFastqs]$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9276576      main AP_Freeb apear012  R       0:02      1 coreV3-23-026 
+           9276491      main       sh apear012  R    1:11:32      1 coreV3-23-046 
+```
+
