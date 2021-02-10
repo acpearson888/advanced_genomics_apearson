@@ -1167,6 +1167,7 @@ Submitted batch job 9273050
 
 /cm/shared/apps/trinity/2.0.6/util/analyze_blastPlus_topHit_coverage.pl blastx.outfmt6 Trinity.fasta /cm/shared/apps/blast/databases/uniprot_sprot_Sep2018.fasta
 ```
+```
 [apear012@turing1 testassembly]$ pwd
 /cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/testassembly
 [apear012@turing1 testassembly]$ nano AP_BlastxToSprot.sh
