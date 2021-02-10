@@ -1208,3 +1208,98 @@ AP_Blast.txt  AP_BlastxToSprot.txt  blastx.outfmt6.hist  blastx.outfmt6.w_pct_hi
 [apear012@turing1 testassembly]$ grep -c '>' Trinity.fasta 
 30194
 ```
+2. Rm UNSORTED.bam
+```
+[apear012@coreV3-23-046 QCFastqs]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+[apear012@turing1 QCFastqs]$ ls
+alignstatsAP.txt                               RI_W_08_SNP_clippedtrimmed.fastq_UNSORTED.bam
+apam                                           *stats.txt.bam
+APbowtie.sh                                    *stats.txt.sam
+APbowtie.txt                                   *stats.txt_UNSORTED.bam
+AP_Sort.sh                                     VA_B_01_14_clippedtrimmed.fastq
+AP_Sort.txt                                    VA_B_01_14_clippedtrimmed.fastq.bam
+RI_B_01_14_clippedtrimmed.fastq                VA_B_01_14_clippedtrimmed.fastq.bam.bai
+RI_B_01_14_clippedtrimmed.fastq.bam            VA_B_01_14_clippedtrimmed.fastq.sam
+RI_B_01_14_clippedtrimmed.fastq.bam.bai        VA_B_01_14_clippedtrimmed.fastq_UNSORTED.bam
+RI_B_01_14_clippedtrimmed.fastq.sam            VA_B_01_18_clippedtrimmed.fastq
+RI_B_01_14_clippedtrimmed.fastq_UNSORTED.bam   VA_B_01_18_clippedtrimmed.fastq.bam
+RI_B_01_18_clippedtrimmed.fastq                VA_B_01_18_clippedtrimmed.fastq.bam.bai
+RI_B_01_18_clippedtrimmed.fastq.bam            VA_B_01_18_clippedtrimmed.fastq.sam
+RI_B_01_18_clippedtrimmed.fastq.bam.bai        VA_B_01_18_clippedtrimmed.fastq_UNSORTED.bam
+RI_B_01_18_clippedtrimmed.fastq.sam            VA_B_01_22_clippedtrimmed.fastq
+RI_B_01_18_clippedtrimmed.fastq_UNSORTED.bam   VA_B_01_22_clippedtrimmed.fastq.bam
+RI_B_01_22_clippedtrimmed.fastq                VA_B_01_22_clippedtrimmed.fastq.bam.bai
+RI_B_01_22_clippedtrimmed.fastq.bam            VA_B_01_22_clippedtrimmed.fastq.sam
+RI_B_01_22_clippedtrimmed.fastq.bam.bai        VA_B_01_22_clippedtrimmed.fastq_UNSORTED.bam
+RI_B_01_22_clippedtrimmed.fastq.sam            VA_B_09_SNP_clippedtrimmed.fastq
+RI_B_01_22_clippedtrimmed.fastq_UNSORTED.bam   VA_B_09_SNP_clippedtrimmed.fastq.bam
+RI_B_08_SNP_clippedtrimmed.fastq               VA_B_09_SNP_clippedtrimmed.fastq.bam.bai
+RI_B_08_SNP_clippedtrimmed.fastq.bam           VA_B_09_SNP_clippedtrimmed.fastq.sam
+RI_B_08_SNP_clippedtrimmed.fastq.bam.bai       VA_B_09_SNP_clippedtrimmed.fastq_UNSORTED.bam
+RI_B_08_SNP_clippedtrimmed.fastq.sam           VA_W_01_14_clippedtrimmed.fastq
+RI_B_08_SNP_clippedtrimmed.fastq_UNSORTED.bam  VA_W_01_14_clippedtrimmed.fastq.bam
+RI_W_01_14_clippedtrimmed.fastq                VA_W_01_14_clippedtrimmed.fastq.bam.bai
+RI_W_01_14_clippedtrimmed.fastq.bam            VA_W_01_14_clippedtrimmed.fastq.sam
+RI_W_01_14_clippedtrimmed.fastq.bam.bai        VA_W_01_14_clippedtrimmed.fastq_UNSORTED.bam
+RI_W_01_14_clippedtrimmed.fastq.sam            VA_W_01_18_clippedtrimmed.fastq
+RI_W_01_14_clippedtrimmed.fastq_UNSORTED.bam   VA_W_01_18_clippedtrimmed.fastq.bam
+RI_W_01_18_clippedtrimmed.fastq                VA_W_01_18_clippedtrimmed.fastq.bam.bai
+RI_W_01_18_clippedtrimmed.fastq.bam            VA_W_01_18_clippedtrimmed.fastq.sam
+RI_W_01_18_clippedtrimmed.fastq.bam.bai        VA_W_01_18_clippedtrimmed.fastq_UNSORTED.bam
+RI_W_01_18_clippedtrimmed.fastq.sam            VA_W_01_22_clippedtrimmed.fastq
+RI_W_01_18_clippedtrimmed.fastq_UNSORTED.bam   VA_W_01_22_clippedtrimmed.fastq.bam
+RI_W_01_22_clippedtrimmed.fastq                VA_W_01_22_clippedtrimmed.fastq.bam.bai
+RI_W_01_22_clippedtrimmed.fastq.bam            VA_W_01_22_clippedtrimmed.fastq.sam
+RI_W_01_22_clippedtrimmed.fastq.bam.bai        VA_W_01_22_clippedtrimmed.fastq_UNSORTED.bam
+RI_W_01_22_clippedtrimmed.fastq.sam            VA_W_08_SNP_clippedtrimmed.fastq
+RI_W_01_22_clippedtrimmed.fastq_UNSORTED.bam   VA_W_08_SNP_clippedtrimmed.fastq.bam
+RI_W_08_SNP_clippedtrimmed.fastq               VA_W_08_SNP_clippedtrimmed.fastq.bam.bai
+RI_W_08_SNP_clippedtrimmed.fastq.bam           VA_W_08_SNP_clippedtrimmed.fastq.sam
+RI_W_08_SNP_clippedtrimmed.fastq.bam.bai       VA_W_08_SNP_clippedtrimmed.fastq_UNSORTED.bam
+RI_W_08_SNP_clippedtrimmed.fastq.sam
+[apear012@turing1 QCFastqs]$ salloc
+salloc: Pending job allocation 9276491
+salloc: job 9276491 queued and waiting for resources
+salloc: job 9276491 has been allocated resources
+salloc: Granted job allocation 9276491
+[apear012@coreV3-23-046 QCFastqs]$ rm *UNSORTED.bam
+[apear012@coreV3-23-046 QCFastqs]$ ls
+alignstatsAP.txt                          RI_W_08_SNP_clippedtrimmed.fastq.bam.bai
+apam                                      RI_W_08_SNP_clippedtrimmed.fastq.sam
+APbowtie.sh                               *stats.txt.bam
+APbowtie.txt                              *stats.txt.sam
+AP_Sort.sh                                VA_B_01_14_clippedtrimmed.fastq
+AP_Sort.txt                               VA_B_01_14_clippedtrimmed.fastq.bam
+RI_B_01_14_clippedtrimmed.fastq           VA_B_01_14_clippedtrimmed.fastq.bam.bai
+RI_B_01_14_clippedtrimmed.fastq.bam       VA_B_01_14_clippedtrimmed.fastq.sam
+RI_B_01_14_clippedtrimmed.fastq.bam.bai   VA_B_01_18_clippedtrimmed.fastq
+RI_B_01_14_clippedtrimmed.fastq.sam       VA_B_01_18_clippedtrimmed.fastq.bam
+RI_B_01_18_clippedtrimmed.fastq           VA_B_01_18_clippedtrimmed.fastq.bam.bai
+RI_B_01_18_clippedtrimmed.fastq.bam       VA_B_01_18_clippedtrimmed.fastq.sam
+RI_B_01_18_clippedtrimmed.fastq.bam.bai   VA_B_01_22_clippedtrimmed.fastq
+RI_B_01_18_clippedtrimmed.fastq.sam       VA_B_01_22_clippedtrimmed.fastq.bam
+RI_B_01_22_clippedtrimmed.fastq           VA_B_01_22_clippedtrimmed.fastq.bam.bai
+RI_B_01_22_clippedtrimmed.fastq.bam       VA_B_01_22_clippedtrimmed.fastq.sam
+RI_B_01_22_clippedtrimmed.fastq.bam.bai   VA_B_09_SNP_clippedtrimmed.fastq
+RI_B_01_22_clippedtrimmed.fastq.sam       VA_B_09_SNP_clippedtrimmed.fastq.bam
+RI_B_08_SNP_clippedtrimmed.fastq          VA_B_09_SNP_clippedtrimmed.fastq.bam.bai
+RI_B_08_SNP_clippedtrimmed.fastq.bam      VA_B_09_SNP_clippedtrimmed.fastq.sam
+RI_B_08_SNP_clippedtrimmed.fastq.bam.bai  VA_W_01_14_clippedtrimmed.fastq
+RI_B_08_SNP_clippedtrimmed.fastq.sam      VA_W_01_14_clippedtrimmed.fastq.bam
+RI_W_01_14_clippedtrimmed.fastq           VA_W_01_14_clippedtrimmed.fastq.bam.bai
+RI_W_01_14_clippedtrimmed.fastq.bam       VA_W_01_14_clippedtrimmed.fastq.sam
+RI_W_01_14_clippedtrimmed.fastq.bam.bai   VA_W_01_18_clippedtrimmed.fastq
+RI_W_01_14_clippedtrimmed.fastq.sam       VA_W_01_18_clippedtrimmed.fastq.bam
+RI_W_01_18_clippedtrimmed.fastq           VA_W_01_18_clippedtrimmed.fastq.bam.bai
+RI_W_01_18_clippedtrimmed.fastq.bam       VA_W_01_18_clippedtrimmed.fastq.sam
+RI_W_01_18_clippedtrimmed.fastq.bam.bai   VA_W_01_22_clippedtrimmed.fastq
+RI_W_01_18_clippedtrimmed.fastq.sam       VA_W_01_22_clippedtrimmed.fastq.bam
+RI_W_01_22_clippedtrimmed.fastq           VA_W_01_22_clippedtrimmed.fastq.bam.bai
+RI_W_01_22_clippedtrimmed.fastq.bam       VA_W_01_22_clippedtrimmed.fastq.sam
+RI_W_01_22_clippedtrimmed.fastq.bam.bai   VA_W_08_SNP_clippedtrimmed.fastq
+RI_W_01_22_clippedtrimmed.fastq.sam       VA_W_08_SNP_clippedtrimmed.fastq.bam
+RI_W_08_SNP_clippedtrimmed.fastq          VA_W_08_SNP_clippedtrimmed.fastq.bam.bai
+RI_W_08_SNP_clippedtrimmed.fastq.bam      VA_W_08_SNP_clippedtrimmed.fastq.sam
+```
+
