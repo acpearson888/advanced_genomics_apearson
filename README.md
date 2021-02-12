@@ -1419,3 +1419,41 @@ I didn't have any.
 [apear012@coreV3-23-040 data]$ mkdir VCF
 [apear012@coreV3-23-040 data]$ mv ./fastq/QCFastqs/*.vcf VCF
 ```
+2. Start an interactive session via salloc
+
+Did this during previous steps.
+
+3. cp the /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/VCF/mergedfastq_HEAAstrangiaAssembly.vcf to your VCF folder
+
+```
+[apear012@coreV3-23-040 VCF]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/VCF
+[apear012@coreV3-23-040 VCF]$ cp /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/VCF/mergedfastq_HEAAstrangiaAssembly.vcf .
+[apear012@coreV3-23-040 VCF]$ ls
+APmergedfastqs.vcf  mergedfastq_HEAAstrangiaAssembly.vcf
+```
+
+4. Determine the number of individuals and variant sites in the class vcf file (and yours if it worked) using:
+/cm/shared/apps/vcftools/0.1.12b/bin/vcftools --vcf mergedfastq_HEAAstrangiaAssembly.vcf
+
+```
+[apear012@coreV3-23-040 VCF]$ vcftools --vcf APmergedfastqs.vcf 
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf APmergedfastqs.vcf
+
+After filtering, kept 16 out of 16 Individuals
+After filtering, kept 148757 out of a possible 148757 Sites
+Run Time = 1.00 seconds
+```
+
+5. cp the /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/VCF/GoodCoralGenelistForVCFSubsetter.txt into your directory with your .vcf files
+
+```
+[apear012@coreV3-23-040 VCF]$ cp /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/VCF/GoodCoralGenelistForVCFSubsetter.txt .
+[apear012@coreV3-23-040 VCF]$ ls
+APmergedfastqs.vcf  GoodCoralGenelistForVCFSubsetter.txt  mergedfastq_HEAAstrangiaAssembly.vcf  out.log
+```
