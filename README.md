@@ -1457,3 +1457,167 @@ Run Time = 1.00 seconds
 [apear012@coreV3-23-040 VCF]$ ls
 APmergedfastqs.vcf  GoodCoralGenelistForVCFSubsetter.txt  mergedfastq_HEAAstrangiaAssembly.vcf  out.log
 ```
+
+6. Run our host vcf extractor on your merged vcf file using the following syntax:
+```
+/cm/shared/courses/dbarshis/21AdvGenomics/scripts/21Sp_vcfsubsetter_advbioinf.py GoodCoralGenelistForVCFSubsetter.txt mergedfastq_HEAAstrangiaAssembly.vcf
+```
+
+```
+[apear012@coreV3-23-026 VCF]$ /cm/shared/courses/dbarshis/21AdvGenomics/scripts/21Sp_vcfsubsetter_advbioinf.py GoodCoralGenelistForVCFSubsetter.txt mergedfastq_HEAAstrangiaAssembly.vcf
+```
+
+7. Compare the number of variant sites in your three files (YOURNAMEmergedfastqs.vcf,  mergedfastq_HEAAstrangiaAssembly.vcf, and  mergedfastq_HEAAstrangiaAssembly_subset.vcf) using:
+/cm/shared/apps/vcftools/0.1.12b/bin/vcftools --vcf
+
+```
+[apear012@turing1 VCF]$ ls
+APmergedfastqs.vcf                    mergedfastq_HEAAstrangiaAssembly_subset.vcf  out.log
+GoodCoralGenelistForVCFSubsetter.txt  mergedfastq_HEAAstrangiaAssembly.vcf
+[apear012@turing1 VCF]$ vcftools --vcf mer
+mergedfastq_HEAAstrangiaAssembly_subset.vcf* mergedfastq_HEAAstrangiaAssembly.vcf*
+[apear012@turing1 VCF]$ vcftools --vcf mergedfastq_HEAAstrangiaAssembly_subset.vcf 
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf mergedfastq_HEAAstrangiaAssembly_subset.vcf
+
+After filtering, kept 40 out of 40 Individuals
+After filtering, kept 432676 out of a possible 432676 Sites
+Run Time = 6.00 seconds
+[apear012@turing1 VCF]$ vcftools --vcf mergedfastq_HEAAstrangiaAssembly.vcf
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf mergedfastq_HEAAstrangiaAssembly.vcf
+
+After filtering, kept 40 out of 40 Individuals
+After filtering, kept 1214003 out of a possible 1214003 Sites
+Run Time = 11.00 seconds
+[apear012@turing1 VCF]$ vcftools --vcf APmergedfastqs.vcf 
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf APmergedfastqs.vcf
+
+After filtering, kept 16 out of 16 Individuals
+After filtering, kept 148757 out of a possible 148757 Sites
+Run Time = 2.00 seconds
+```
+
+8. Work through the VCF filtering tutorial until the following step:
+
+Now that we have a list of individuals to remove, we can feed that directly into VCFtools for filtering.
+
+vcftools --vcf raw.g5mac3dp3.recode.vcf --remove lowDP.indv --recode --recode-INFO-all --out raw.g5mac3dplm
+
+```
+[apear012@turing1 VCF]$ vcftools --vcf mer --max-missing 0.5 --mac 3 --minQ 30 --recode --recode-INFO-all --out raw.g5mac3
+mergedfastq_HEAAstrangiaAssembly_subset.vcf* mergedfastq_HEAAstrangiaAssembly.vcf*
+[apear012@turing1 VCF]$ vcftools --vcf mergedfastq_HEAAstrangiaAssembly_subset.vcf --max-missing 0.5 --mac 3 --minQ 30 --recode --recode-INFO-all --out raw.g5mac3
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf mergedfastq_HEAAstrangiaAssembly_subset.vcf
+	--recode-INFO-all
+	--mac 3
+	--minQ 30
+	--max-missing 0.5
+	--out raw.g5mac3
+	--recode
+
+After filtering, kept 40 out of 40 Individuals
+Outputting VCF file...
+After filtering, kept 99853 out of a possible 432676 Sites
+Run Time = 33.00 seconds
+[apear012@turing1 VCF]$ ls
+APmergedfastqs.vcf                           out.log
+GoodCoralGenelistForVCFSubsetter.txt         raw.g5mac3.log
+mergedfastq_HEAAstrangiaAssembly_subset.vcf  raw.g5mac3.recode.vcf
+mergedfastq_HEAAstrangiaAssembly.vcf
+[apear012@turing1 VCF]$ vcftools --vcf raw.g5mac3.recode.vcf --minDP 3 --recode --recode-INFO-all --out raw.g5mac3dp3 
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf raw.g5mac3.recode.vcf
+	--recode-INFO-all
+	--minDP 3
+	--out raw.g5mac3dp3
+	--recode
+
+After filtering, kept 40 out of 40 Individuals
+Outputting VCF file...
+After filtering, kept 99853 out of a possible 99853 Sites
+Run Time = 30.00 seconds
+[apear012@turing1 VCF]$ vcftools --vcf raw.g5mac3dp3.recode.vcf --missing-indv
+
+VCFtools - 0.1.14
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf raw.g5mac3dp3.recode.vcf
+	--missing-indv
+
+After filtering, kept 40 out of 40 Individuals
+Outputting Individual Missingness
+After filtering, kept 99853 out of a possible 99853 Sites
+Run Time = 3.00 seconds
+[apear012@turing1 VCF]$ bash
+apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/VCF$ mawk '!/IN/' out.imiss | cut -f5 > totalmissing
+apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/VCF$ gnuplot << \EOF 
+> set terminal dumb size 120, 30
+> set autoscale 
+> unset label
+> set title "Histogram of % missing data per individual"
+> set ylabel "Number of Occurrences"
+> set xlabel "% of missing data"
+> #set yr [0:100000]
+> binwidth=0.01
+> bin(x,width)=width*floor(x/width) + binwidth/2.0
+> plot 'totalmissing' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+> pause -1
+> EOF
+
+                                         Histogram of % missing data per individual
+  Number of Occurrences
+      3 ++----------+-----------+-----------+-----------+------------+---***-----+-----------+-----------+----------++
+        +           +           +           +           +       'totalmissing' using (bin($1,binwidth)):(1.0) ****** +
+        |                                                                * *                                         |
+        |                                                                * *                                         |
+        |                                                                * *                                         |
+        |                                                                * *                                         |
+    2.5 ++                                                               * *                                        ++
+        |                                                                * *                                         |
+        |                                                                * *                                         |
+        |                                                                * *                                         |
+        |                                                                * *                                         |
+        |                                                                * *                                         |
+      2 ++                                                       **      * * ***  ******    ** ****   ****          ++
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+    1.5 ++                                                       **      * * * *  * *  *    ** ** *   *  *          ++
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+        |                                                        **      * * * *  * *  *    ** ** *   *  *           |
+        +           +           +           +           +        **  +   * * * * +* *  *    ** ** *   *  *           +
+      1 *********************************************************************************************************---++
+       0.1         0.2         0.3         0.4         0.5          0.6         0.7         0.8         0.9          1
+                                                      % of missing data
+
+apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/VCF$ exit
+exit
+```
