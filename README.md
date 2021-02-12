@@ -1360,3 +1360,55 @@ Submitted batch job 9276576
            9276491      main       sh apear012  R    1:11:32      1 coreV3-23-046 
 ```
 
+## Day 08 012-Feb-2021
+
+1. Clean up your data directory by:
+	-Making a SAMS folder and mv all your .sam files into that directory
+```
+[apear012@turing1 data]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data
+[apear012@turing1 data]$ mkdir SAMS
+[apear012@turing1 data]$ mv ./fastq/QCFastqs/*.sam SAMS
+```
+	-Make a BAMS folder and mv all your .bam files and .bam.bai files into that directory
+```
+[apear012@turing1 data]$ mkdir BAMS
+[apear012@turing1 data]$ mv ./fastq/QCFastqs/*.bam BAMS
+[apear012@coreV3-23-040 data]$ mv ./fastq/QCFastqs/*.bai BAMS
+[apear012@coreV3-23-040 data]$ ls BAMS
+RI_B_01_14_clippedtrimmed.fastq.bam       VA_B_01_14_clippedtrimmed.fastq.bam
+RI_B_01_14_clippedtrimmed.fastq.bam.bai   VA_B_01_14_clippedtrimmed.fastq.bam.bai
+RI_B_01_18_clippedtrimmed.fastq.bam       VA_B_01_18_clippedtrimmed.fastq.bam
+RI_B_01_18_clippedtrimmed.fastq.bam.bai   VA_B_01_18_clippedtrimmed.fastq.bam.bai
+RI_B_01_22_clippedtrimmed.fastq.bam       VA_B_01_22_clippedtrimmed.fastq.bam
+RI_B_01_22_clippedtrimmed.fastq.bam.bai   VA_B_01_22_clippedtrimmed.fastq.bam.bai
+RI_B_08_SNP_clippedtrimmed.fastq.bam      VA_B_09_SNP_clippedtrimmed.fastq.bam
+RI_B_08_SNP_clippedtrimmed.fastq.bam.bai  VA_B_09_SNP_clippedtrimmed.fastq.bam.bai
+RI_W_01_14_clippedtrimmed.fastq.bam       VA_W_01_14_clippedtrimmed.fastq.bam
+RI_W_01_14_clippedtrimmed.fastq.bam.bai   VA_W_01_14_clippedtrimmed.fastq.bam.bai
+RI_W_01_18_clippedtrimmed.fastq.bam       VA_W_01_18_clippedtrimmed.fastq.bam
+RI_W_01_18_clippedtrimmed.fastq.bam.bai   VA_W_01_18_clippedtrimmed.fastq.bam.bai
+RI_W_01_22_clippedtrimmed.fastq.bam       VA_W_01_22_clippedtrimmed.fastq.bam
+RI_W_01_22_clippedtrimmed.fastq.bam.bai   VA_W_01_22_clippedtrimmed.fastq.bam.bai
+RI_W_08_SNP_clippedtrimmed.fastq.bam      VA_W_08_SNP_clippedtrimmed.fastq.bam
+RI_W_08_SNP_clippedtrimmed.fastq.bam.bai  VA_W_08_SNP_clippedtrimmed.fastq.bam.bai
+*stats.txt.bam
+```
+	-rm your _unfiltered.vcf files if you have any
+
+I didn't have any.
+
+
+	-rm your .fastq files
+```
+[apear012@coreV3-23-040 QCFastqs]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/fastq/QCFastqs
+[apear012@coreV3-23-040 QCFastqs]$ rm *.fastq
+```
+	-Make a VCF folder in your data directory and mv your YOURNAMEmergedfastqs.vcf into this directory (if your freebayes job didn't complete then skip this step)
+```
+[apear012@coreV3-23-040 data]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data
+[apear012@coreV3-23-040 data]$ mkdir VCF
+[apear012@coreV3-23-040 data]$ mv ./fastq/QCFastqs/*.vcf VCF
+```
