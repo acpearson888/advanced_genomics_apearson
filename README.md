@@ -1106,7 +1106,9 @@ VA_W_08_SNP_clippedtrimmed.fastq.sam
 16 :
 	read reverse strand
 ```
+
 10. we need to run the read sorting step required for SNP calling, so if you have time, set up and run the following script on your .sam files to finish before Wednesday:
+```
 #!/bin/bash -l
 
 #SBATCH -o OUTFILENAME.txt
@@ -1122,6 +1124,8 @@ for i in *.sam; do `samtools view -bS $i > ${i%.sam}_UNSORTED.bam`; done
 for i in *UNSORTED.bam; do samtools sort $i > ${i%_UNSORTED.bam}.bam
 samtools index ${i%_UNSORTED.bam}.bam
 done
+```
+
 ```
 [apear012@coreV1-22-016 QCFastqs]$ nano AP_Sort.sh
 ```
@@ -1621,3 +1625,127 @@ apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/da
 apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/VCF$ exit
 exit
 ```
+
+## Day 09 017-Feb-2021
+
+1. Run one of the following sets of prescribed filters on your mergedfastq_HEAAstrangiaAssembly_subset.vcf, note these are fairly conservative filters
+##Half the class run the following (I was instructed to do this one)
+/cm/shared/apps/vcftools/0.1.12b/bin/vcftools --vcf mergedfastq_HEAAstrangiaAssembly_subset.vcf --maf 0.015 --max-alleles 2 --max-missing 0.5 --minQ 30 --minGQ 20 --minDP 3 --remove-indels --hwe 0.01 --recode --recode-INFO-all --out 18718_mergedfastq_HEAAstrangiaAssembly_subset_ClassFilters
+##the other half run the filters we used from the paper
+/cm/shared/apps/vcftools/0.1.12b/bin/vcftools --vcf mergedfastq_HEAAstrangiaAssembly_subset.vcf --max-missing 0.5 --mac 3 --minQ 30 --minDP 10 --max-alleles 2 --maf 0.015 --remove-indels --recode --recode-INFO-all --out 1578_mergedfastq_HEAAstrangiaAssembly_subset_HEAFilters
+
+```
+[apear012@coreV3-23-015 VCF]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/VCF
+[apear012@coreV3-23-015 VCF]$ /cm/shared/apps/vcftools/0.1.12b/bin/vcftools --vcf mergedfastq_HEAAstrangiaAssembly_subset.vcf --maf 0.015 --max-alleles 2 --max-missing 0.5 --minQ 30 --minGQ 20 --minDP 3 --remove-indels --hwe 0.01 --recode --recode-INFO-all --out 18718_mergedfastq_HEAAstrangiaAssembly_subset_ClassFilters
+
+VCFtools - v0.1.12b
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf mergedfastq_HEAAstrangiaAssembly_subset.vcf
+	--recode-INFO-all
+	--maf 0.015
+	--max-alleles 2
+	--minDP 3
+	--minGQ 20
+	--hwe 0.01
+	--minQ 30
+	--max-missing 0.5
+	--out 18718_mergedfastq_HEAAstrangiaAssembly_subset_ClassFilters
+	--recode
+	--remove-indels
+
+After filtering, kept 40 out of 40 Individuals
+Outputting VCF file...
+After filtering, kept 18718 out of a possible 432676 Sites
+Run Time = 10.00 seconds
+```
+2. Make a population file containing two columns with no header, tab delimited text the first column should be the individual name and the second column the population to which that individual belongs
+
+```
+[apear012@coreV3-23-015 VCF]$ grep '#CHROM' mergedfastq_HEAAstrangiaAssembly.vcf > samplenames.txt
+[apear012@coreV3-23-015 VCF]$ cat samplenames.txt 
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	RI_W_06_merged	RI_W_07_merged	VA_B_03_merged	RI_W_02_merged	RI_W_04_merged	VA_W_09_SNP_clipped	RI_B_08_SNP_clipped	VA_W_08_SNP_clipped	VA_B_08_SNP_clipped	VA_W_02_merged	VA_B_07_merged	RI_B_05_merged	VA_W_06_merged	VA_W_04_merged	VA_W_01_merged	VA_B_10_SNP_clipped	VA_B_06_merged	VA_W_05_merged	RI_B_09_SNP_clipped	VA_W_10_SNP_clipped	RI_W_08_SNP_clipped	RI_B_06_merged	RI_W_10_SNP_clipped	RI_B_04_merged	VA_W_03_merged	RI_B_07_mergedRI_W_05_merged	RI_W_09_SNP_clipped	VA_B_01_merged	VA_B_09_SNP_clipped	RI_B_10_SNP_clipped	RI_W_01_merged	RI_B_01_merged	VA_B_04_merged	RI_B_02_merged	RI_W_03_merged	VA_B_02_merged	VA_W_07_merged	VA_B_05_merged	RI_B_03_merged
+```
+Copied the contents of samplenames.txt into BBedit and used regular expressions in find and replace as such:
+
+```
+FIND: (\w\w_\w)(_.*)
+REPLACE: \1\2\t\1
+```
+```
+[apear012@coreV2-22-030 VCF]$ nano popfile.txt
+```
+popfile.txt:
+```
+RI_W_06_merged	RI_W
+RI_W_07_merged	RI_W
+VA_B_03_merged	VA_B
+RI_W_02_merged	RI_W
+RI_W_04_merged	RI_W
+VA_W_09_SNP_clipped	VA_W
+RI_B_08_SNP_clipped	RI_B
+VA_W_08_SNP_clipped	VA_W
+VA_B_08_SNP_clipped	VA_B
+VA_W_02_merged	VA_W
+VA_B_07_merged	VA_B
+RI_B_05_merged	RI_B
+VA_W_06_merged	VA_W
+VA_W_04_merged	VA_W
+VA_W_01_merged	VA_W
+VA_B_10_SNP_clipped	VA_B
+VA_B_06_merged	VA_B
+VA_W_05_merged	VA_W
+RI_B_09_SNP_clipped	RI_B
+VA_W_10_SNP_clipped	VA_W
+RI_W_08_SNP_clipped	RI_W
+RI_B_06_merged	RI_B
+RI_W_10_SNP_clipped	RI_W
+RI_B_04_merged	RI_B
+VA_W_03_merged	VA_W
+RI_B_07_merged	RI_B
+RI_W_05_merged	RI_W
+RI_W_09_SNP_clipped	RI_W
+VA_B_01_merged	VA_B
+VA_B_09_SNP_clipped	VA_B
+RI_B_10_SNP_clipped	RI_B
+RI_W_01_merged	RI_W
+RI_B_01_merged	RI_B
+VA_B_04_merged	VA_B
+RI_B_02_merged	RI_B
+RI_W_03_merged	RI_W
+VA_B_02_merged	VA_B
+VA_W_07_merged	VA_W
+VA_B_05_merged	VA_B
+RI_B_03_merged	RI_B
+```
+
+3. Convert your filtered .vcf file to genepop format using the following command:
+
+/cm/shared/courses/dbarshis/21AdvGenomics/scripts/vcftogenepop_advbioinf.py YOURFILTERED.vcf YOUR_PopFile.txt
+
+```
+[apear012@coreV2-22-030 VCF]$ /cm/shared/courses/dbarshis/21AdvGenomics/scripts/vcftogenepop_advbioinf.py 18718_mergedfastq_HEAAstrangiaAssembly_subset_ClassFilters.recode.vcf popfile.txt 
+Indivs with genotypes in vcf file: RI_W_06_merged	RI_W_07_merged	VA_B_03_merged	RI_W_02_merged	RI_W_04_merged	VA_W_09_SNP_clipped	RI_B_08_SNP_clipped	VA_W_08_SNP_clipped	VA_B_08_SNP_clipped	VA_W_02_merged	VA_B_07_merged	RI_B_05_merged	VA_W_06_merged	VA_W_04_merged	VA_W_01_merged	VA_B_10_SNP_clipped	VA_B_06_merged	VA_W_05_merged	RI_B_09_SNP_clipped	VA_W_10_SNP_clipped	RI_W_08_SNP_clipped	RI_B_06_merged	RI_W_10_SNP_clipped	RI_B_04_merged	VA_W_03_merged	RI_B_07_merged	RI_W_05_merged	RI_W_09_SNP_clipped	VA_B_01_merged	VA_B_09_SNP_clipped	RI_B_10_SNP_clipped	RI_W_01_merged	RI_B_01_merged	VA_B_04_merged	RI_B_02_merged	RI_W_03_merged	VA_B_02_merged	VA_W_07_merged	VA_B_05_merged	RI_B_03_merged
+44 18718 18718 18718 18718 40
+```
+
+4. SCP your YOURFILE_allfilters.recode_subset_genepop.gen file to your laptop
+
+```
+(base) Andrews-MacBook-Air:day09 AndrewsComputer$ pwd
+/Users/AndrewsComputer/Documents/Bio_ODU_2021/21sp_advgenomics/assignments_exercises/day09
+(base) Andrews-MacBook-Air:day09 AndrewsComputer$ scp apear012@turing.hpc.odu.edu:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/VCF/18718_mergedfastq_HEAAstrangiaAssembly_subset_ClassFilters.recode_genepop.gen .
+apear012@turing.hpc.odu.edu's password: 
+18718_mergedfastq_HEAAstrangiaAssembly_subset_ClassFilters.recode_genepop.ge 100% 4062KB 180.0KB/s   00:22    
+(base) Andrews-MacBook-Air:day09 AndrewsComputer$ ls
+18718_mergedfastq_HEAAstrangiaAssembly_subset_ClassFilters.recode_genepop.gen
+adegenet_PCAs.R
+adegenet_PCAs_HEAOutliers.R
+homework_day09.txt
+```
+
+5. Switch to the adegenet_PCAs.R script and follow through the steps to produce some of the figures.
+
+I did this. I had to import a number of dependencies for the R package 'adegenet' manually to get this to work. Specifically, the R package 'sf' gave me trouble and I had to go to download it in Chrome and manually add the package from the file browser.
