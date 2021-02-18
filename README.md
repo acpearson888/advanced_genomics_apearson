@@ -1748,4 +1748,4 @@ homework_day09.txt
 
 5. Switch to the adegenet_PCAs.R script and follow through the steps to produce some of the figures.
 
-I did this. I had to import a number of dependencies for the R package 'adegenet' manually to get this to work. Specifically, the R package 'sf' gave me trouble and I had to go to download it in Chrome and manually add the package from the file browser.
+I did this. I had to import a number of dependencies for the R package 'adegenet' manually to get this to work. Specifically, the R package 'sf', a dependancy of 'adegent', gave me trouble and I had to go to download it in Chrome and manually add the package from the file browser.
