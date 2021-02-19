@@ -1157,7 +1157,7 @@ Submitted batch job 9273050
            9273048      main AP_Blast apear012  R      21:11      1 coreV1-22-016 
 ```
 
-## Day 07 010-Feb-2021
+## Day 07 10-Feb-2021
 
 1. Run the following command on your sprot output file to process into the contig length/match format that trinity examines
 ```
@@ -1364,7 +1364,7 @@ Submitted batch job 9276576
            9276491      main       sh apear012  R    1:11:32      1 coreV3-23-046 
 ```
 
-## Day 08 012-Feb-2021
+## Day 08 12-Feb-2021
 
 1. Clean up your data directory by:
 
@@ -1626,7 +1626,7 @@ apear012@turing1:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/da
 exit
 ```
 
-## Day 09 017-Feb-2021
+## Day 09 17-Feb-2021
 
 1. Run one of the following sets of prescribed filters on your mergedfastq_HEAAstrangiaAssembly_subset.vcf, note these are fairly conservative filters
 ##Half the class run the following (I was instructed to do this one)
@@ -1749,3 +1749,67 @@ homework_day09.txt
 5. Switch to the adegenet_PCAs.R script and follow through the steps to produce some of the figures.
 
 I did this. I had to import a number of dependencies for the R package 'adegenet' manually to get this to work. Specifically, the R package 'sf', a dependancy of 'adegent', gave me trouble and I had to go to download it in Chrome and manually add the package from the file browser.
+
+## Day 10 19-Feb-2021
+
+1. Work through the adegenet_PCAs.R script and follow through the steps to produce some of the figures.
+
+I did this.
+
+2. cd into your SAMS folder containing your .sams and run the following as an sbatch script on your sam files to generate read mapping counts from each individual file:
+/cm/shared/courses/dbarshis/21AdvGenomics/scripts/countxpression_SB_advbioinf.py *.sam
+
+```
+[apear012@turing1 SAMS]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/SAMS
+[apear012@coreV2-25-017 SAMS]$ /cm/shared/courses/dbarshis/21AdvGenomics/scripts/countxpression_SB_advbioinf.py *.sam
+```
+
+3. Once your job from step 1 is finished, start an salloc session and run the following on your outputted _counts.txt files:
+/cm/shared/courses/dbarshis/21AdvGenomics/scripts/ParseExpression2BigTable_advbioinf.py /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/host_genelist.txt YOURNAMEFullCounts_summed.txt NoMatch *_counts.txt
+
+(I also had to rename the match_counts.txt file to matchcounts.txt so this command would not include it.)
+
+```
+[apear012@turing1 SAMS]$ mv match_counts.txt matchcounts.txt
+[apear012@turing1 SAMS]$ /cm/shared/courses/dbarshis/21AdvGenomics/scripts/ParseExpression2BigTable_advbioinf.py /cm/shared/courses/dbarshis/21AdvGenomics/classdata/Astrangia_poculata/host_genelist.txt APFullCounts_summed.txt NoMatch *_counts.txt
+Hits not matchedRI_B_01_14_clippedtrimmed.fastq_counts.txt=1698	RI_B_01_18_clippedtrimmed.fastq_counts.txt=169RI_B_01_22_clippedtrimmed.fastq_counts.txt=1698	RI_B_08_SNP_clippedtrimmed.fastq_counts.txt=1698	RI_W_01_14_clippedtrimmed.fastq_counts.txt=1698	RI_W_01_18_clippedtrimmed.fastq_counts.txt=1698	RI_W_01_22_clippedtrimmed.fastq_counts.txt=1698	RI_W_08_SNP_clippedtrimmed.fastq_counts.txt=1698	VA_B_01_14_clippedtrimmed.fastq_counts.txt=1698	VA_B_01_18_clippedtrimmed.fastq_counts.txt=1698	VA_B_01_22_clippedtrimmed.fastq_counts.txt=1698	VA_B_09_SNP_clippedtrimmed.fastq_counts.txt=1698	VA_W_01_14_clippedtrimmed.fastq_counts.txt=1698	VA_W_01_18_clippedtrimmed.fastq_counts.txt=1698	VA_W_01_22_clippedtrimmed.fastq_counts.txt=1698	VA_W_08_SNP_clippedtrimmed.fastq_counts.txt=1698
+[apear012@turing1 SAMS]$ ls
+APFullCounts_summed.txt                      stats.txt
+matchcounts.txt                              VA_B_01_14_clippedtrimmed.fastq_counts.txt
+RI_B_01_14_clippedtrimmed.fastq_counts.txt   VA_B_01_14_clippedtrimmed.fastq.sam
+RI_B_01_14_clippedtrimmed.fastq.sam          VA_B_01_18_clippedtrimmed.fastq_counts.txt
+RI_B_01_18_clippedtrimmed.fastq_counts.txt   VA_B_01_18_clippedtrimmed.fastq.sam
+RI_B_01_18_clippedtrimmed.fastq.sam          VA_B_01_22_clippedtrimmed.fastq_counts.txt
+RI_B_01_22_clippedtrimmed.fastq_counts.txt   VA_B_01_22_clippedtrimmed.fastq.sam
+RI_B_01_22_clippedtrimmed.fastq.sam          VA_B_09_SNP_clippedtrimmed.fastq_counts.txt
+RI_B_08_SNP_clippedtrimmed.fastq_counts.txt  VA_B_09_SNP_clippedtrimmed.fastq.sam
+RI_B_08_SNP_clippedtrimmed.fastq.sam         VA_W_01_14_clippedtrimmed.fastq_counts.txt
+RI_W_01_14_clippedtrimmed.fastq_counts.txt   VA_W_01_14_clippedtrimmed.fastq.sam
+RI_W_01_14_clippedtrimmed.fastq.sam          VA_W_01_18_clippedtrimmed.fastq_counts.txt
+RI_W_01_18_clippedtrimmed.fastq_counts.txt   VA_W_01_18_clippedtrimmed.fastq.sam
+RI_W_01_18_clippedtrimmed.fastq.sam          VA_W_01_22_clippedtrimmed.fastq_counts.txt
+RI_W_01_22_clippedtrimmed.fastq_counts.txt   VA_W_01_22_clippedtrimmed.fastq.sam
+RI_W_01_22_clippedtrimmed.fastq.sam          VA_W_08_SNP_clippedtrimmed.fastq_counts.txt
+RI_W_08_SNP_clippedtrimmed.fastq_counts.txt  VA_W_08_SNP_clippedtrimmed.fastq.sam
+RI_W_08_SNP_clippedtrimmed.fastq.sam
+```
+
+4. scp YOURNAMEFullCounts_summed.txt to your laptop
+
+```
+(base) Andrews-MacBook-Air:Day10 AndrewsComputer$ pwd
+/Users/AndrewsComputer/Documents/Bio_ODU_2021/21sp_advgenomics/assignments_exercises/Day10
+(base) Andrews-MacBook-Air:Day10 AndrewsComputer$ scp apear012@turing.hpc.odu.edu:/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes/apearson/data/SAMS/APFullCounts_summed.txt .
+apear012@turing.hpc.odu.edu's password: 
+APFullCounts_summed.txt                                                      100%  762KB 182.5KB/s   00:04    
+(base) Andrews-MacBook-Air:Day10 AndrewsComputer$ ls
+APFullCounts_summed.txt
+coral_279_cloneremoved_neutral.filtered1SNPper_genepop.gen
+coral_66_cloneremoved_highoutliers.filtered1SNPper_genepop.gen
+homework_day10.txt
+```
+
+5. edit the first line of YOURNAMEFullCounts_summed.txt to remove the _counts.txt_UniqueTotReads from each sample name to just retain the actual informative part of the sample name (e.g., RI_W_06_18)
+
+I used the find a replace feature of BBedit (without GREP) to replace each instance of '_clippedtrimmed.fastq_counts.txt_UniqueTotReads' from the end of the file names
