@@ -1813,3 +1813,40 @@ homework_day10.txt
 5. edit the first line of YOURNAMEFullCounts_summed.txt to remove the _counts.txt_UniqueTotReads from each sample name to just retain the actual informative part of the sample name (e.g., RI_W_06_18)
 
 I used the find a replace feature of BBedit (without GREP) to replace each instance of '_clippedtrimmed.fastq_counts.txt_UniqueTotReads' from the end of the file names
+
+## Day 11 24-Feb-2021
+
+1. Download the DESeq2Script_advbioinf.R script and work through on the shared djbFullCounts_summed.txt file
+
+I did this.
+
+## Day 12 26-Feb-2021
+
+
+
+## Day 13 3-Mar-2021
+
+1. create an sbatch script to rm -r your sandbox/YOURNAME directory
+
+2. submit your sbatch script and add the entry to your logfile/readme
+
+```
+[apear012@coreV2-25-072 sandboxes]$ pwd
+/cm/shared/courses/dbarshis/21AdvGenomics/sandboxes
+[apear012@coreV2-25-072 sandboxes]$ cat AP_SandboxRemoval.sh
+#!/bin/bash -l
+
+#SBATCH -o AP_SandboxRemoval.txt
+#SBATCH -n 1
+#SBATCH --mail-user=pearsoac@evms.edu
+#SBATCH --mail-type=END
+#SBATCH --job-name=AP_SandboxRemoval
+
+rm -r ./apearson
+[apear012@coreV2-25-072 sandboxes]$ sbatch AP_SandboxRemoval.sh 
+Submitted batch job 9284108
+[apear012@coreV2-25-072 sandboxes]$ squeue -u apear012
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+           9284108      main AP_Sandb apear012 PD       0:00      1 (Priority) 
+           9284102      main       sh apear012  R       0:58      1 coreV2-25-072 
+```
